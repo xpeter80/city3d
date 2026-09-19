@@ -1,0 +1,44 @@
+[
+  {
+    "viewport": "393x852",
+    "compact": true,
+    "errors": [],
+    "pass": true
+  },
+  {
+    "viewport": "375x812",
+    "compact": true,
+    "errors": [],
+    "pass": true
+  },
+  {
+    "viewport": "430x932",
+    "compact": true,
+    "errors": [],
+    "pass": true
+  },
+  {
+    "viewport": "768x1024",
+    "compact": false,
+    "errors": [],
+    "pass": true
+  },
+  {
+    "viewport": "1024x768",
+    "compact": false,
+    "errors": [],
+    "pass": true
+  },
+  {
+    "viewport": "852x393",
+    "compact": true,
+    "errors": [],
+    "pass": true
+  },
+  {
+    "viewport": "1440x900",
+    "compact": false,
+    "errors": [],
+    "pass": true
+  }
+]

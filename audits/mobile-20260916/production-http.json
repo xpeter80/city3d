@@ -1,0 +1,36 @@
+[
+  {
+    "path": "/",
+    "status": 200
+  },
+  {
+    "path": "/city/",
+    "status": 200,
+    "sha256": "bfc4a3bade2b0f547da35da2a0fcacbf209589d1de60695e4b2f511891d41cc1"
+  },
+  {
+    "path": "/account/",
+    "status": 200
+  },
+  {
+    "path": "/admin/",
+    "status": 200
+  },
+  {
+    "path": "/api/config",
+    "status": 200
+  },
+  {
+    "path": "/api/auth/me",
+    "status": 200
+  },
+  {
+    "path": "/nove-rsi/",
+    "status": 200
+  },
+  {
+    "path": "/floating-player.js",
+    "status": 200,
+    "sha256": "f6a15fd55cf949307a879ab7b13c7c4e4f5dc1946f7ad2e4b9b6fdcd4916b909"
+  }
+]

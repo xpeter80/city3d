@@ -1,0 +1,16 @@
+const {chromium}=require('/Users/xpeter/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');
+const fs=require('fs');
+(async()=>{const browser=await chromium.launch({executablePath:'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',headless:true,args:['--enable-webgl','--enable-unsafe-swiftshader']});const results=[];
+for(const [w,h] of [[393,852],[375,812],[430,932],[768,1024],[1024,768],[852,393],[1440,900]]){
+const page=await browser.newPage({viewport:{width:w,height:h}});await page.addInitScript(()=>{const raf=window.requestAnimationFrame.bind(window);window.requestAnimationFrame=cb=>setTimeout(()=>raf(cb),80);});const errors=[];page.on('pageerror',e=>errors.push(e.message));
+await page.route('**/api/**',route=>route.request().method()==='GET'?route.continue():route.abort());
+await page.goto('http://xpeter.net:3466/city/',{waitUntil:'domcontentloaded',timeout:60000});await page.waitForTimeout(2300);const compact=w<768||h<500;
+const assert=async(condition,msg)=>{if(!await condition)throw Error(`${w}x${h} ${msg}`);};
+await assert(page.locator('#explore').isVisible().then(v=>v===compact),'breakpoint');await assert(page.locator('.navigator').isVisible().then(v=>v!==compact),'list default');
+await page.screenshot({path:`audits/mobile-20260916/production-${w}x${h}-overview.png`});
+if(compact){await page.click('#explore');await page.click('#mobile-places');}
+await page.locator('#destinations .destination .number').first().click();await page.waitForTimeout(1800);await assert(page.locator('#detail').isVisible(),'detail');if(compact){await assert(page.locator('.navigator').isVisible().then(v=>!v),'exclusive list');await assert(page.locator('#read-stories').isVisible(),'read action');await assert(page.locator('#write-note').isVisible(),'write action');await page.click('#detail-handle');await assert(page.locator('#detail').getAttribute('data-detent').then(x=>x==='full'),'full detent');await page.click('#detail-handle');await assert(page.locator('#detail').getAttribute('data-detent').then(x=>x==='summary'),'summary detent');await page.screenshot({path:`audits/mobile-20260916/production-${w}x${h}-summary.png`});await page.click('#detail-handle');}
+await page.waitForTimeout(350);await page.screenshot({path:`audits/mobile-20260916/production-${w}x${h}-detail.png`});
+if(compact){await page.evaluate(()=>{document.querySelector('#detail').dataset.detent='full'});await page.locator('textarea').fill('手机草稿检查 '+w);await page.click('#close-detail');await page.click('#explore');await page.click('#mobile-places');await page.locator('#destinations .destination .number').first().click();await assert(page.locator('textarea').inputValue().then(v=>v==='手机草稿检查 '+w),'draft restored');}
+await assert(page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'horizontal overflow');await assert(Promise.resolve(errors.length===0),'JS errors '+errors);console.log('PASS',w,h);results.push({viewport:`${w}x${h}`,compact,errors,pass:true});await page.unrouteAll({behavior:"ignoreErrors"});await page.close();}
+fs.writeFileSync('audits/mobile-20260916/production-results.json',JSON.stringify(results,null,2));await browser.close();console.log(JSON.stringify(results));})().catch(e=>{console.error(e);process.exit(1)});

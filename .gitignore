@@ -1,0 +1,26 @@
+# Local state and credentials
+.DS_Store
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+__pycache__/
+*.py[cod]
+.venv/
+node_modules/
+*.db
+*.db-*
+*.sqlite*
+uploads/
+backups/
+
+# Reproducible build and release archives
+/dist/
+/bundle.js
+/城市图鉴.html
+/山水杭州.html
+/releases/**/*.tar.gz
+
+# Failed-run diagnostic captures
+/audits/**/*-error.png
